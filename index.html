@@ -39,21 +39,16 @@ body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif-
 button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;letter-spacing:inherit}
 button:focus-visible{outline:2px solid var(--gold);outline-offset:6px;border-radius:2px}
 .page{max-width:var(--col);margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
-.top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-block:max(28px,env(safe-area-inset-top)) 0}
-.brand{font-family:var(--serif-lat);font-size:17px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);padding-block:6px}
-.brand:hover{color:var(--ink)}
-.nav{font-family:var(--serif-lat);font-size:15px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding-block:6px;padding-inline-start:.2em}
-.nav:hover{color:var(--ink)}
+.link{font-family:var(--serif-lat);font-size:15px;font-weight:500;font-style:normal;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding-block:6px}
+.link:hover{color:var(--ink)}
 main{flex:1;display:flex;flex-direction:column}
 .fade{animation:rise .8s cubic-bezier(.2,.6,.2,1) both}
 @keyframes rise{from{opacity:.3;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.fade{animation:none}.dot{animation:none}}
 
 /* 今日の頁 */
-.leaf{padding-block:52px 48px;display:flex;flex-direction:column;align-items:flex-start}
-.date{margin:0;display:flex;flex-direction:column;gap:8px}
-.date .lat{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:23px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
-.date .jp{font-family:var(--serif-lat);font-size:13px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
+.leaf{padding-block:calc(64px + env(safe-area-inset-top)) 56px;display:flex;flex-direction:column;align-items:flex-start}
+.date{margin:0;font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:23px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
 .art{margin-top:38px;max-width:100%;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .art.f-arch{width:min(300px,100%);aspect-ratio:4/5;border-radius:50% 50% 14px 14px / 40% 40% 14px 14px}
 .art.f-tondo{width:min(300px,100%);aspect-ratio:1/1;border-radius:50%}
@@ -69,13 +64,14 @@ main{flex:1;display:flex;flex-direction:column}
 .body{width:100%}
 .body p{margin:0;text-indent:1em;font-size:17px;line-height:2.05;text-align:justify;letter-spacing:.02em;line-break:strict;overflow-wrap:anywhere;color:var(--ink)}
 .note{margin:0;font-family:var(--serif-lat);font-size:17px;line-height:1.6;color:var(--ink-2);letter-spacing:.01em}
-.meta{margin-top:40px;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 20px}
-.tomorrow{margin-top:56px;padding-top:28px;border-top:1px solid var(--line);width:100%;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3)}
+.foot{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);width:100%;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 24px;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3)}
+.foot p{margin:0}
 .retry{margin-top:32px;font-family:var(--serif-lat);font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);padding:12px 22px;border-radius:6px}
 .retry:hover{border-color:var(--gold)}
 
 /* 書庫 */
-.shelf{padding-block:52px 48px}
+.shelf{padding-block:calc(40px + env(safe-area-inset-top)) 56px}
+.shelf .back{display:inline-block;margin-bottom:40px}
 .shelf h2{font-family:var(--serif-lat);font-size:14px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:500;margin:0 0 10px}
 .shelf .count{margin:0 0 30px;display:flex;align-items:baseline;gap:10px}
 .shelf .count .n{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:34px;line-height:1;color:var(--ink)}
@@ -99,10 +95,6 @@ main{flex:1;display:flex;flex-direction:column}
 </head>
 <body>
 <div class="page">
-  <header class="top">
-    <button class="brand" id="brand" type="button" aria-label="Ichiyō — back to today">Ichiyō</button>
-    <button class="nav" id="nav" type="button">Library</button>
-  </header>
   <main id="view" aria-live="polite"></main>
 </div>
 
@@ -112,13 +104,10 @@ main{flex:1;display:flex;flex-direction:column}
   'use strict';
 
   // ---------- 暦 ----------
-  var SEKKI=[[1,5,'小寒'],[1,20,'大寒'],[2,4,'立春'],[2,19,'雨水'],[3,5,'啓蟄'],[3,20,'春分'],[4,5,'清明'],[4,20,'穀雨'],[5,5,'立夏'],[5,21,'小満'],[6,6,'芒種'],[6,21,'夏至'],[7,7,'小暑'],[7,23,'大暑'],[8,7,'立秋'],[8,23,'処暑'],[9,7,'白露'],[9,23,'秋分'],[10,8,'寒露'],[10,23,'霜降'],[11,7,'立冬'],[11,22,'小雪'],[12,7,'大雪'],[12,22,'冬至']];
-  var SEKKI_EN={'小寒':'Minor Cold','大寒':'Major Cold','立春':'Start of Spring','雨水':'Rain Water','啓蟄':'Awakening of Insects','春分':'Spring Equinox','清明':'Pure Brightness','穀雨':'Grain Rain','立夏':'Start of Summer','小満':'Grain Buds','芒種':'Grain in Ear','夏至':'Summer Solstice','小暑':'Minor Heat','大暑':'Major Heat','立秋':'Start of Autumn','処暑':'End of Heat','白露':'White Dew','秋分':'Autumn Equinox','寒露':'Cold Dew','霜降':'Descent of Frost','立冬':'Start of Winter','小雪':'Minor Snow','大雪':'Major Snow','冬至':'Winter Solstice'};
   var WD_EN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   var MON_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var MON_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  function sekkiOf(d){var m=d.getMonth()+1,day=d.getDate(),cur='冬至';for(var i=0;i<SEKKI.length;i++){var s=SEKKI[i];if(m>s[0]||(m===s[0]&&day>=s[1]))cur=s[2];}return SEKKI_EN[cur]||cur;}
   function parseKey(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
   function latDate(d){return WD_EN[d.getDay()]+', '+d.getDate()+' '+MON_EN[d.getMonth()]+' '+d.getFullYear();}
   function shortDate(d){return d.getDate()+' '+MON_SHORT[d.getMonth()];}
@@ -134,12 +123,11 @@ main{flex:1;display:flex;flex-direction:column}
   var view='today';       // today | shelf | past
 
   var $view=document.getElementById('view');
-  var $nav=document.getElementById('nav');
-  var $brand=document.getElementById('brand');
 
   function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
   function clear(){while($view.firstChild)$view.removeChild($view.firstChild);}
-  function setView(v){view=v;$nav.textContent=(v==='shelf')?'Today':'Library';window.scrollTo({top:0});}
+  function setView(v){view=v;window.scrollTo({top:0});}
+  function link(text,onClick){var b=el('button','link',text);b.type='button';b.addEventListener('click',onClick);return b;}
   function isValid(d){return !!d&&typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date)&&typeof d.title==='string'&&typeof d.kanji==='string'&&typeof d.body==='string'&&d.body.length>0;}
   function sortedKeys(){return Object.keys(essays).sort().reverse();}
   function setHash(h){try{if(h){history.replaceState(null,'','#'+h);}else{history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}
@@ -154,10 +142,7 @@ main{flex:1;display:flex;flex-direction:column}
     setHash(opts.past?e.date:'');
     var d=parseKey(e.date);
     var art=el('article','leaf fade');
-    var date=el('p','date');
-    date.appendChild(el('span','lat',latDate(d)));
-    date.appendChild(el('span','jp',sekkiOf(d)));
-    art.appendChild(date);
+    art.appendChild(el('p','date',latDate(d)));
     if(opts.note){var n=el('p','note',opts.note);n.style.marginTop='28px';art.appendChild(n);}
     var pl=planOf(e);
     var arch=el('div','art f-'+pl.frame+(pl.light?' light':''));
@@ -169,13 +154,10 @@ main{flex:1;display:flex;flex-direction:column}
     var body=el('div','body');
     e.body.split('\n').forEach(function(p){p=p.trim();if(p)body.appendChild(el('p',null,p));});
     art.appendChild(body);
-    var chars=e.body.replace(/\n/g,'').length;
-    var mins=Math.max(1,Math.round(chars/350));
-    var meta=el('footer','meta');
-    meta.appendChild(el('span',null,chars+' characters'));
-    meta.appendChild(el('span',null,'about '+mins+' min'));
-    art.appendChild(meta);
-    if(!opts.past&&e.date===todayKey)art.appendChild(el('p','tomorrow','The next page arrives tomorrow.'));
+    var foot=el('footer','foot');
+    if(!opts.past&&e.date===todayKey){foot.appendChild(el('p',null,'The next page arrives tomorrow.'));foot.appendChild(link('Library',renderShelf));}
+    else{foot.appendChild(link('Library',renderShelf));foot.appendChild(link('Today',showToday));}
+    art.appendChild(foot);
     $view.appendChild(art);
     var rect=arch.getBoundingClientRect();
     paint(cv,e,Math.max(1,Math.round(rect.width)),Math.max(1,Math.round(rect.height)));
@@ -185,10 +167,7 @@ main{flex:1;display:flex;flex-direction:column}
     clear();setView('today');
     var art=el('article','leaf fade');
     var d=parseKey(todayKey);
-    var date=el('p','date');
-    date.appendChild(el('span','lat',latDate(d)));
-    date.appendChild(el('span','jp',sekkiOf(d)));
-    art.appendChild(date);
+    art.appendChild(el('p','date',latDate(d)));
     var arch=el('div','art f-arch');arch.appendChild(el('span','dot'));art.appendChild(arch);
     art.appendChild(el('h1','title quiet',text));
     if(sub){var n=el('p','note',sub);n.style.marginTop='18px';art.appendChild(n);}
@@ -199,6 +178,7 @@ main{flex:1;display:flex;flex-direction:column}
   function renderShelf(){
     clear();setView('shelf');setHash('');
     var sec=el('section','shelf fade');
+    var back=link('Today',showToday);back.classList.add('back');sec.appendChild(back);
     sec.appendChild(el('h2',null,'Library'));
     var keys=sortedKeys();
     var count=el('p','count');
@@ -247,8 +227,6 @@ main{flex:1;display:flex;flex-direction:column}
     });
   }
 
-  $nav.addEventListener('click',function(){if(view==='shelf'){showToday();}else{renderShelf();}});
-  $brand.addEventListener('click',function(){showToday();});
   load();
 })();
 </script>
