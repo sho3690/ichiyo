@@ -53,9 +53,10 @@ main{flex:1;display:flex;flex-direction:column}
 .date{margin:0;display:flex;flex-direction:column;gap:8px}
 .date .lat{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:23px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
 .date .jp{font-size:12px;letter-spacing:.32em;color:var(--gold)}
-.arch{margin-top:38px;width:150px;max-width:100%;aspect-ratio:4/5;border-radius:75px 75px 10px 10px;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
-.arch .kanji{font-size:82px;font-weight:500;line-height:1;color:var(--ink);transform:translateY(3px)}
-.arch .yomi{font-size:11px;letter-spacing:.38em;padding-inline-start:.38em;color:var(--gold)}
+.arch{margin-top:38px;width:240px;max-width:100%;aspect-ratio:4/5;border-radius:120px 120px 12px 12px;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.arch canvas{display:block;width:100%;height:100%}
+.arch .seal{position:absolute;right:14px;bottom:14px;width:40px;height:40px;border:1px solid var(--gold);color:var(--ink);font-size:22px;font-weight:500;line-height:1;display:grid;place-items:center;background:rgba(27,25,22,.55)}
+.caption{margin:12px 0 0;font-size:11px;letter-spacing:.38em;color:var(--gold)}
 .arch .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:breathe 2.6s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
 .title{font-size:33px;font-weight:500;line-height:1.3;letter-spacing:.05em;margin:40px 0 0;text-wrap:balance}
@@ -78,7 +79,9 @@ main{flex:1;display:flex;flex-direction:column}
 .shelf ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .shelf li{border-bottom:1px solid var(--line)}
 .row{width:100%;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:18px;padding-block:16px;text-align:left}
-.row .k{width:44px;height:54px;border-radius:22px 22px 6px 6px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:24px;font-weight:500;line-height:1}
+.row .k{width:44px;height:54px;border-radius:22px 22px 6px 6px;border:1px solid var(--line);background:var(--surface);overflow:hidden;position:relative}
+.row .k canvas{display:block;width:100%;height:100%}
+.row .k .mini{position:absolute;inset:0;display:grid;place-items:center;font-size:18px;font-weight:500;line-height:1;color:var(--ink);text-shadow:0 0 6px rgba(27,25,22,.9)}
 .row .t{font-size:17px;letter-spacing:.05em;color:var(--ink)}
 .row .d{font-family:var(--serif-lat);font-style:italic;font-size:17px;color:var(--ink-3);white-space:nowrap}
 .row:hover .t,.row:hover .d{color:var(--gold)}
@@ -95,6 +98,7 @@ main{flex:1;display:flex;flex-direction:column}
   <main id="view" aria-live="polite"></main>
 </div>
 
+<script src="art.js"></script>
 <script>
 (function(){
   'use strict';
@@ -132,6 +136,7 @@ main{flex:1;display:flex;flex-direction:column}
   function isValid(d){return !!d&&typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date)&&typeof d.title==='string'&&typeof d.kanji==='string'&&typeof d.body==='string'&&d.body.length>0;}
   function sortedKeys(){return Object.keys(essays).sort().reverse();}
   function setHash(h){try{if(h){history.replaceState(null,'','#'+h);}else{history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}
+  function paint(canvas,e,w,h){try{if(window.IchiyoArt)window.IchiyoArt.draw(canvas,e.date+e.kanji,w,h);}catch(err){}}
 
   // ---------- 描画 ----------
   function renderLeaf(e,opts){
@@ -146,9 +151,12 @@ main{flex:1;display:flex;flex-direction:column}
     art.appendChild(date);
     if(opts.note){var n=el('p','note',opts.note);n.style.marginTop='28px';art.appendChild(n);}
     var arch=el('div','arch');
-    arch.appendChild(el('span','kanji',e.kanji));
-    if(e.yomi)arch.appendChild(el('span','yomi',e.yomi));
+    var cv=document.createElement('canvas');cv.setAttribute('aria-hidden','true');arch.appendChild(cv);
+    arch.appendChild(el('span','seal',e.kanji));
+    arch.setAttribute('role','img');arch.setAttribute('aria-label','その日の一枚　'+e.kanji);
     art.appendChild(arch);
+    paint(cv,e,240,300);
+    art.appendChild(el('p','caption',e.kanji+(e.yomi?'　'+e.yomi:'')));
     art.appendChild(el('h1','title',e.title));
     art.appendChild(el('hr','rule'));
     var body=el('div','body');
@@ -193,7 +201,7 @@ main{flex:1;display:flex;flex-direction:column}
     keys.forEach(function(k){
       var e=essays[k],li=el('li'),b=el('button','row'+(k===todayKey?' today':''));
       b.type='button';
-      b.appendChild(el('span','k',e.kanji));
+      var k=el('span','k');var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');k.appendChild(kc);k.appendChild(el('span','mini',e.kanji));b.appendChild(k);paint(kc,e,44,54);
       b.appendChild(el('span','t',e.title));
       b.appendChild(el('span','d',shortDate(parseKey(k))));
       b.addEventListener('click',function(){renderLeaf(e,{past:k!==todayKey});});
