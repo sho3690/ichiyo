@@ -103,10 +103,12 @@ main{flex:1;display:flex;flex-direction:column}
   function parseKey(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
   function latDate(d){return WD_EN[d.getDay()]+', '+d.getDate()+' '+MON_EN[d.getMonth()]+' '+d.getFullYear();}
   function shortDate(d){return d.getDate()+' '+MON_SHORT[d.getMonth()];}
-  // 日本時間での今日（YYYY-MM-DD）
+  // 「今日の頁」は日本時間の朝7時に切り替わる。7時より前は前日の頁を今日として扱う
+  var DAY_START_HOUR=7;
   function todayJST(){
-    try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
-    catch(e){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+    var t=new Date(Date.now()-DAY_START_HOUR*3600*1000);
+    try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(t);}
+    catch(e){return t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);}
   }
 
   // ---------- 状態 ----------

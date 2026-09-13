@@ -20,8 +20,10 @@ const wanted = dateIdx >= 0 && args[dateIdx + 1] ? [args[dateIdx + 1]] : [jstKey
 const SEKKI = [[1,5,'小寒'],[1,20,'大寒'],[2,4,'立春'],[2,19,'雨水'],[3,5,'啓蟄'],[3,20,'春分'],[4,5,'清明'],[4,20,'穀雨'],[5,5,'立夏'],[5,21,'小満'],[6,6,'芒種'],[6,21,'夏至'],[7,7,'小暑'],[7,23,'大暑'],[8,7,'立秋'],[8,23,'処暑'],[9,7,'白露'],[9,23,'秋分'],[10,8,'寒露'],[10,23,'霜降'],[11,7,'立冬'],[11,22,'小雪'],[12,7,'大雪'],[12,22,'冬至']];
 const WD = ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
 
+// 頁は日本時間の朝7時に切り替わる。7時より前は前日を「今日」とみなす
+const DAY_START_HOUR = 7;
 function jstKey(offsetDays) {
-  const d = new Date(Date.now() + offsetDays * 86400000);
+  const d = new Date(Date.now() - DAY_START_HOUR * 3600000 + offsetDays * 86400000);
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 }
 function sekkiOf(m, day) {
