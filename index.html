@@ -47,25 +47,22 @@ main{flex:1;display:flex;flex-direction:column}
 @media (prefers-reduced-motion:reduce){.fade{animation:none}.dot{animation:none}}
 
 /* 今日の頁 */
-.leaf{padding-block:calc(64px + env(safe-area-inset-top)) 56px;display:flex;flex-direction:column;align-items:flex-start}
-.date{margin:0;font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:23px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
-.art{margin-top:38px;max-width:100%;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.art.f-arch{width:min(300px,100%);aspect-ratio:4/5;border-radius:50% 50% 14px 14px / 40% 40% 14px 14px}
-.art.f-tondo{width:min(300px,100%);aspect-ratio:1/1;border-radius:50%}
-.art.f-tall{width:min(260px,86%);aspect-ratio:2/3;border-radius:3px;outline:1px solid var(--line);outline-offset:6px;margin-top:44px}
-.art.f-square{width:min(300px,100%);aspect-ratio:1/1;border-radius:14px}
-.art.f-wide{width:100%;aspect-ratio:3/2;border-radius:10px}
+.leaf{padding-block:calc(40px + env(safe-area-inset-top)) 56px;display:flex;flex-direction:column;align-items:flex-start}
+.date{margin:0;font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:21px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
+.art{margin:0;width:100%;aspect-ratio:1/1;border-radius:2px;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .art canvas{display:block;width:100%;height:100%}
 .art .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:breathe 2.6s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
 .title{font-size:33px;font-weight:500;line-height:1.3;letter-spacing:.05em;margin:44px 0 0;text-wrap:balance}
+.title.quiet{margin-top:40px}
 .title.quiet{font-family:var(--serif-lat);font-size:22px;font-weight:400;font-style:italic;color:var(--ink-2);letter-spacing:.02em}
 .rule{width:40px;height:1px;background:var(--gold);border:0;margin:24px 0 30px}
 .body{width:100%}
 .body p{margin:0;text-indent:1em;font-size:17px;line-height:2.05;text-align:justify;letter-spacing:.02em;line-break:strict;overflow-wrap:anywhere;color:var(--ink)}
 .note{margin:0;font-family:var(--serif-lat);font-size:17px;line-height:1.6;color:var(--ink-2);letter-spacing:.01em}
-.foot{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);width:100%;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 24px;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3)}
+.foot{margin-top:56px;padding-top:24px;border-top:1px solid var(--line);width:100%;display:flex;flex-direction:column;gap:14px;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3)}
 .foot p{margin:0}
+.foot .row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px 24px}
 .retry{margin-top:32px;font-family:var(--serif-lat);font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);padding:12px 22px;border-radius:6px}
 .retry:hover{border-color:var(--gold)}
 
@@ -79,12 +76,7 @@ main{flex:1;display:flex;flex-direction:column}
 .shelf ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .shelf li{border-bottom:1px solid var(--line)}
 .row{width:100%;display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:16px;padding-block:16px;text-align:left}
-.row .k{border:1px solid var(--line);background:var(--surface);overflow:hidden;position:relative;justify-self:center}
-.row .k.f-arch{width:44px;height:54px;border-radius:22px 22px 6px 6px}
-.row .k.f-tondo{width:46px;height:46px;border-radius:50%}
-.row .k.f-tall{width:38px;height:54px;border-radius:2px;outline:1px solid var(--line);outline-offset:2px}
-.row .k.f-square{width:46px;height:46px;border-radius:5px}
-.row .k.f-wide{width:56px;height:36px;border-radius:4px}
+.row .k{width:48px;height:48px;border-radius:2px;border:1px solid var(--line);background:var(--surface);overflow:hidden;position:relative;justify-self:center}
 .row .k canvas{display:block;width:100%;height:100%}
 .row .t{font-size:17px;letter-spacing:.05em;color:var(--ink)}
 .row .d{font-family:var(--serif-lat);font-style:italic;font-size:17px;color:var(--ink-3);white-space:nowrap}
@@ -131,7 +123,6 @@ main{flex:1;display:flex;flex-direction:column}
   function isValid(d){return !!d&&typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date)&&typeof d.title==='string'&&typeof d.kanji==='string'&&typeof d.body==='string'&&d.body.length>0;}
   function sortedKeys(){return Object.keys(essays).sort().reverse();}
   function setHash(h){try{if(h){history.replaceState(null,'','#'+h);}else{history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}
-  var THUMB={arch:[44,54],tondo:[46,46],tall:[38,54],square:[46,46],wide:[56,36]};
   function planOf(e){try{if(window.IchiyoArt)return window.IchiyoArt.plan(e.date,e.kanji);}catch(err){} return {frame:'arch',light:false};}
   function paint(canvas,e,w,h){try{if(window.IchiyoArt)window.IchiyoArt.draw(canvas,e.date,e.kanji,w,h);}catch(err){}}
 
@@ -142,10 +133,8 @@ main{flex:1;display:flex;flex-direction:column}
     setHash(opts.past?e.date:'');
     var d=parseKey(e.date);
     var art=el('article','leaf fade');
-    art.appendChild(el('p','date',latDate(d)));
-    if(opts.note){var n=el('p','note',opts.note);n.style.marginTop='28px';art.appendChild(n);}
     var pl=planOf(e);
-    var arch=el('div','art f-'+pl.frame+(pl.light?' light':''));
+    var arch=el('div','art'+(pl.light?' light':''));
     var cv=document.createElement('canvas');cv.setAttribute('aria-hidden','true');arch.appendChild(cv);
     arch.setAttribute('role','img');arch.setAttribute('aria-label','Artwork of the day');
     art.appendChild(arch);
@@ -155,8 +144,12 @@ main{flex:1;display:flex;flex-direction:column}
     e.body.split('\n').forEach(function(p){p=p.trim();if(p)body.appendChild(el('p',null,p));});
     art.appendChild(body);
     var foot=el('footer','foot');
-    if(!opts.past&&e.date===todayKey){foot.appendChild(el('p',null,'The next page arrives tomorrow.'));foot.appendChild(link('Library',renderShelf));}
-    else{foot.appendChild(link('Library',renderShelf));foot.appendChild(link('Today',showToday));}
+    foot.appendChild(el('p','date',latDate(d)));
+    if(opts.note)foot.appendChild(el('p','note',opts.note));
+    var row=el('div','row');
+    if(!opts.past&&e.date===todayKey){row.appendChild(el('p',null,'The next page arrives tomorrow.'));row.appendChild(link('Library',renderShelf));}
+    else{row.appendChild(link('Library',renderShelf));row.appendChild(link('Today',showToday));}
+    foot.appendChild(row);
     art.appendChild(foot);
     $view.appendChild(art);
     var rect=arch.getBoundingClientRect();
@@ -167,10 +160,10 @@ main{flex:1;display:flex;flex-direction:column}
     clear();setView('today');
     var art=el('article','leaf fade');
     var d=parseKey(todayKey);
-    art.appendChild(el('p','date',latDate(d)));
-    var arch=el('div','art f-arch');arch.appendChild(el('span','dot'));art.appendChild(arch);
+    var arch=el('div','art');arch.appendChild(el('span','dot'));art.appendChild(arch);
     art.appendChild(el('h1','title quiet',text));
     if(sub){var n=el('p','note',sub);n.style.marginTop='18px';art.appendChild(n);}
+    var foot=el('footer','foot');foot.appendChild(el('p','date',latDate(d)));art.appendChild(foot);
     $view.appendChild(art);
     return art;
   }
@@ -190,7 +183,7 @@ main{flex:1;display:flex;flex-direction:column}
     keys.forEach(function(k){
       var e=essays[k],li=el('li'),b=el('button','row'+(k===todayKey?' today':''));
       b.type='button';
-      var pk=planOf(e),tw=THUMB[pk.frame]||THUMB.arch;var kb=el('span','k f-'+pk.frame+(pk.light?' light':''));var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');kb.appendChild(kc);b.appendChild(kb);paint(kc,e,tw[0],tw[1]);
+      var pk=planOf(e);var kb=el('span','k'+(pk.light?' light':''));var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');kb.appendChild(kc);b.appendChild(kb);paint(kc,e,48,48);
       b.appendChild(el('span','t',e.title));
       b.appendChild(el('span','d',shortDate(parseKey(k))));
       b.addEventListener('click',function(){renderLeaf(e,{past:k!==todayKey});});
