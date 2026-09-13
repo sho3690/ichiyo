@@ -32,22 +32,37 @@ jobs:
       - name: Claude Code を入れる
         run: npm install -g @anthropic-ai/claude-code
 
-      - name: トークンを確かめる
+      - name: トークンと書き置きを確かめる
+        id: token
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
         run: |
-          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
-            echo "::error::CLAUDE_CODE_OAUTH_TOKEN が設定されていません。README の手順で Secrets に登録してください"
+          ahead=$(node -e '
+            const L = require("./data/essays.json");
+            const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+            const last = L.map(e => e.date).sort().pop();
+            console.log(Math.round((Date.parse(last) - Date.parse(today)) / 86400000));
+          ')
+          echo "書き置きは今日から ${ahead} 日ぶん" | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+          elif [ "$ahead" -ge 3 ]; then
+            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN が未設定です。書き置きがあるうちは静かに見送ります。README の手順で Secrets に登録してください"
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "::error::CLAUDE_CODE_OAUTH_TOKEN が未設定で、書き置きが残り ${ahead} 日です。README の手順で Secrets に登録してください"
             exit 1
           fi
 
       - name: 頁を書く
+        if: steps.token.outputs.ok == 'true'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           DATE: ${{ inputs.date }}
         run: node scripts/write-tomorrow.mjs ${DATE:+--date "$DATE"}
 
       - name: 記録をコミット
+        if: steps.token.outputs.ok == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
