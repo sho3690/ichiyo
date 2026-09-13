@@ -6,6 +6,7 @@
 <title>一日一頁</title>
 <meta name="description" content="一日一本、およそ五百字の随想。開いた日の頁だけが読める。">
 <meta name="theme-color" content="#1b1916">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="一日一頁">
@@ -201,7 +202,7 @@ main{flex:1;display:flex;flex-direction:column}
     keys.forEach(function(k){
       var e=essays[k],li=el('li'),b=el('button','row'+(k===todayKey?' today':''));
       b.type='button';
-      var k=el('span','k');var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');k.appendChild(kc);k.appendChild(el('span','mini',e.kanji));b.appendChild(k);paint(kc,e,44,54);
+      var kb=el('span','k');var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');kb.appendChild(kc);kb.appendChild(el('span','mini',e.kanji));b.appendChild(kb);paint(kc,e,44,54);
       b.appendChild(el('span','t',e.title));
       b.appendChild(el('span','d',shortDate(parseKey(k))));
       b.addEventListener('click',function(){renderLeaf(e,{past:k!==todayKey});});
