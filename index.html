@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>一日一頁</title>
-<meta name="description" content="一日一本、およそ五百字の随想。開いた日の頁だけが読める。">
+<title>Ichiyō</title>
+<meta name="description" content="One page a day. A short Japanese essay of about five hundred characters, and only the page for today.">
 <meta name="theme-color" content="#1b1916">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="一日一頁">
-<meta property="og:title" content="一日一頁">
-<meta property="og:description" content="一日一本、およそ五百字の随想。">
+<meta name="apple-mobile-web-app-title" content="Ichiyō">
+<meta property="og:title" content="Ichiyō">
+<meta property="og:description" content="One page a day. A short Japanese essay of about five hundred characters.">
 <meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-512.png" type="image/png">
@@ -40,9 +40,9 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 button:focus-visible{outline:2px solid var(--gold);outline-offset:6px;border-radius:2px}
 .page{max-width:var(--col);margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
 .top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-block:max(28px,env(safe-area-inset-top)) 0}
-.brand{font-size:15px;letter-spacing:.32em;color:var(--ink-2);padding-block:6px}
+.brand{font-family:var(--serif-lat);font-size:17px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-2);padding-block:6px}
 .brand:hover{color:var(--ink)}
-.nav{font-size:13px;letter-spacing:.28em;color:var(--gold);padding-block:6px;padding-inline-start:.28em}
+.nav{font-family:var(--serif-lat);font-size:15px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);padding-block:6px;padding-inline-start:.2em}
 .nav:hover{color:var(--ink)}
 main{flex:1;display:flex;flex-direction:column}
 .fade{animation:rise .8s cubic-bezier(.2,.6,.2,1) both}
@@ -53,38 +53,33 @@ main{flex:1;display:flex;flex-direction:column}
 .leaf{padding-block:52px 48px;display:flex;flex-direction:column;align-items:flex-start}
 .date{margin:0;display:flex;flex-direction:column;gap:8px}
 .date .lat{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:23px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
-.date .jp{font-size:12px;letter-spacing:.32em;color:var(--gold)}
+.date .jp{font-family:var(--serif-lat);font-size:13px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;color:var(--gold)}
 .art{margin-top:38px;max-width:100%;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.art.f-arch{width:240px;height:300px;border-radius:120px 120px 12px 12px}
-.art.f-tondo{width:240px;height:240px;border-radius:50%}
-.art.f-tall{width:200px;height:300px;border-radius:3px;outline:1px solid var(--line);outline-offset:6px;margin-top:44px}
-.art.f-square{width:240px;height:240px;border-radius:12px}
-.art.f-wide{width:100%;height:220px;border-radius:8px}
+.art.f-arch{width:min(300px,100%);aspect-ratio:4/5;border-radius:50% 50% 14px 14px / 40% 40% 14px 14px}
+.art.f-tondo{width:min(300px,100%);aspect-ratio:1/1;border-radius:50%}
+.art.f-tall{width:min(260px,86%);aspect-ratio:2/3;border-radius:3px;outline:1px solid var(--line);outline-offset:6px;margin-top:44px}
+.art.f-square{width:min(300px,100%);aspect-ratio:1/1;border-radius:14px}
+.art.f-wide{width:100%;aspect-ratio:3/2;border-radius:10px}
 .art canvas{display:block;width:100%;height:100%}
-.art .seal{position:absolute;right:14px;bottom:14px;width:40px;height:40px;border:1px solid var(--gold);color:var(--ink);font-size:22px;font-weight:500;line-height:1;display:grid;place-items:center;background:rgba(27,25,22,.55)}
-.art.f-tondo .seal{right:auto;left:50%;transform:translateX(-50%);bottom:18px}
-.art.light .seal{color:#2a2622;border-color:#b4463a;background:rgba(239,231,214,.55)}
-.caption{margin:12px 0 0;font-size:11px;letter-spacing:.38em;color:var(--gold)}
-.art.f-tall+.caption{margin-top:18px}
 .art .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:breathe 2.6s ease-in-out infinite}
 @keyframes breathe{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-.title{font-size:33px;font-weight:500;line-height:1.3;letter-spacing:.05em;margin:40px 0 0;text-wrap:balance}
-.title.quiet{font-size:20px;font-weight:400;color:var(--ink-2);letter-spacing:.08em}
+.title{font-size:33px;font-weight:500;line-height:1.3;letter-spacing:.05em;margin:44px 0 0;text-wrap:balance}
+.title.quiet{font-family:var(--serif-lat);font-size:22px;font-weight:400;font-style:italic;color:var(--ink-2);letter-spacing:.02em}
 .rule{width:40px;height:1px;background:var(--gold);border:0;margin:24px 0 30px}
 .body{width:100%}
 .body p{margin:0;text-indent:1em;font-size:17px;line-height:2.05;text-align:justify;letter-spacing:.02em;line-break:strict;overflow-wrap:anywhere;color:var(--ink)}
-.note{margin:0;font-size:14px;line-height:1.9;color:var(--ink-2);letter-spacing:.04em}
-.meta{margin-top:40px;font-size:12px;letter-spacing:.22em;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 20px}
-.tomorrow{margin-top:56px;padding-top:28px;border-top:1px solid var(--line);width:100%;font-size:13px;letter-spacing:.22em;color:var(--ink-3)}
-.retry{margin-top:32px;font-size:14px;letter-spacing:.22em;color:var(--gold);border:1px solid var(--line);padding:12px 22px;border-radius:6px}
+.note{margin:0;font-family:var(--serif-lat);font-size:17px;line-height:1.6;color:var(--ink-2);letter-spacing:.01em}
+.meta{margin-top:40px;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 20px}
+.tomorrow{margin-top:56px;padding-top:28px;border-top:1px solid var(--line);width:100%;font-family:var(--serif-lat);font-style:italic;font-size:16px;letter-spacing:.03em;color:var(--ink-3)}
+.retry{margin-top:32px;font-family:var(--serif-lat);font-size:15px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);padding:12px 22px;border-radius:6px}
 .retry:hover{border-color:var(--gold)}
 
 /* 書庫 */
 .shelf{padding-block:52px 48px}
-.shelf h2{font-size:12px;letter-spacing:.32em;color:var(--gold);font-weight:500;margin:0 0 10px}
+.shelf h2{font-family:var(--serif-lat);font-size:14px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:500;margin:0 0 10px}
 .shelf .count{margin:0 0 30px;display:flex;align-items:baseline;gap:10px}
 .shelf .count .n{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:34px;line-height:1;color:var(--ink)}
-.shelf .count .u{font-size:13px;letter-spacing:.22em;color:var(--ink-2)}
+.shelf .count .u{font-family:var(--serif-lat);font-style:italic;font-size:17px;letter-spacing:.02em;color:var(--ink-2)}
 .shelf ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
 .shelf li{border-bottom:1px solid var(--line)}
 .row{width:100%;display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:16px;padding-block:16px;text-align:left}
@@ -95,20 +90,18 @@ main{flex:1;display:flex;flex-direction:column}
 .row .k.f-square{width:46px;height:46px;border-radius:5px}
 .row .k.f-wide{width:56px;height:36px;border-radius:4px}
 .row .k canvas{display:block;width:100%;height:100%}
-.row .k .mini{position:absolute;inset:0;display:grid;place-items:center;font-size:17px;font-weight:500;line-height:1;color:var(--ink);text-shadow:0 0 6px rgba(27,25,22,.9)}
-.row .k.light .mini{color:#2a2622;text-shadow:0 0 6px rgba(239,231,214,.95)}
 .row .t{font-size:17px;letter-spacing:.05em;color:var(--ink)}
 .row .d{font-family:var(--serif-lat);font-style:italic;font-size:17px;color:var(--ink-3);white-space:nowrap}
 .row:hover .t,.row:hover .d{color:var(--gold)}
 .row.today .d::after{content:"today";margin-inline-start:.6em;font-size:12px;letter-spacing:.12em;color:var(--gold)}
-.shelf .empty{margin:0;font-size:14px;color:var(--ink-3);letter-spacing:.06em}
+.shelf .empty{margin:0;font-family:var(--serif-lat);font-style:italic;font-size:17px;color:var(--ink-3)}
 </style>
 </head>
 <body>
 <div class="page">
   <header class="top">
-    <button class="brand" id="brand" type="button" aria-label="一日一頁 — 今日の頁へ">一日一頁</button>
-    <button class="nav" id="nav" type="button">書庫</button>
+    <button class="brand" id="brand" type="button" aria-label="Ichiyō — back to today">Ichiyō</button>
+    <button class="nav" id="nav" type="button">Library</button>
   </header>
   <main id="view" aria-live="polite"></main>
 </div>
@@ -120,16 +113,15 @@ main{flex:1;display:flex;flex-direction:column}
 
   // ---------- 暦 ----------
   var SEKKI=[[1,5,'小寒'],[1,20,'大寒'],[2,4,'立春'],[2,19,'雨水'],[3,5,'啓蟄'],[3,20,'春分'],[4,5,'清明'],[4,20,'穀雨'],[5,5,'立夏'],[5,21,'小満'],[6,6,'芒種'],[6,21,'夏至'],[7,7,'小暑'],[7,23,'大暑'],[8,7,'立秋'],[8,23,'処暑'],[9,7,'白露'],[9,23,'秋分'],[10,8,'寒露'],[10,23,'霜降'],[11,7,'立冬'],[11,22,'小雪'],[12,7,'大雪'],[12,22,'冬至']];
-  var WD_JP=['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
+  var SEKKI_EN={'小寒':'Minor Cold','大寒':'Major Cold','立春':'Start of Spring','雨水':'Rain Water','啓蟄':'Awakening of Insects','春分':'Spring Equinox','清明':'Pure Brightness','穀雨':'Grain Rain','立夏':'Start of Summer','小満':'Grain Buds','芒種':'Grain in Ear','夏至':'Summer Solstice','小暑':'Minor Heat','大暑':'Major Heat','立秋':'Start of Autumn','処暑':'End of Heat','白露':'White Dew','秋分':'Autumn Equinox','寒露':'Cold Dew','霜降':'Descent of Frost','立冬':'Start of Winter','小雪':'Minor Snow','大雪':'Major Snow','冬至':'Winter Solstice'};
   var WD_EN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   var MON_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
   var MON_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  function sekkiOf(d){var m=d.getMonth()+1,day=d.getDate(),cur='冬至';for(var i=0;i<SEKKI.length;i++){var s=SEKKI[i];if(m>s[0]||(m===s[0]&&day>=s[1]))cur=s[2];}return cur;}
+  function sekkiOf(d){var m=d.getMonth()+1,day=d.getDate(),cur='冬至';for(var i=0;i<SEKKI.length;i++){var s=SEKKI[i];if(m>s[0]||(m===s[0]&&day>=s[1]))cur=s[2];}return SEKKI_EN[cur]||cur;}
   function parseKey(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
   function latDate(d){return WD_EN[d.getDay()]+', '+d.getDate()+' '+MON_EN[d.getMonth()]+' '+d.getFullYear();}
   function shortDate(d){return d.getDate()+' '+MON_SHORT[d.getMonth()];}
-  function kan(n){var D='〇一二三四五六七八九';if(n<10)return D[n];if(n>=1000)return String(n);var s='',h=Math.floor(n/100),t=Math.floor(n%100/10),o=n%10;if(h)s+=(h>1?D[h]:'')+'百';if(t)s+=(t>1?D[t]:'')+'十';if(o)s+=D[o];return s;}
   // 日本時間での今日（YYYY-MM-DD）
   function todayJST(){
     try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
@@ -147,7 +139,7 @@ main{flex:1;display:flex;flex-direction:column}
 
   function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
   function clear(){while($view.firstChild)$view.removeChild($view.firstChild);}
-  function setView(v){view=v;$nav.textContent=(v==='shelf')?'今日の頁':'書庫';window.scrollTo({top:0});}
+  function setView(v){view=v;$nav.textContent=(v==='shelf')?'Today':'Library';window.scrollTo({top:0});}
   function isValid(d){return !!d&&typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date)&&typeof d.title==='string'&&typeof d.kanji==='string'&&typeof d.body==='string'&&d.body.length>0;}
   function sortedKeys(){return Object.keys(essays).sort().reverse();}
   function setHash(h){try{if(h){history.replaceState(null,'','#'+h);}else{history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}
@@ -164,16 +156,14 @@ main{flex:1;display:flex;flex-direction:column}
     var art=el('article','leaf fade');
     var date=el('p','date');
     date.appendChild(el('span','lat',latDate(d)));
-    date.appendChild(el('span','jp',sekkiOf(d)+'　'+WD_JP[d.getDay()]));
+    date.appendChild(el('span','jp',sekkiOf(d)));
     art.appendChild(date);
     if(opts.note){var n=el('p','note',opts.note);n.style.marginTop='28px';art.appendChild(n);}
     var pl=planOf(e);
     var arch=el('div','art f-'+pl.frame+(pl.light?' light':''));
     var cv=document.createElement('canvas');cv.setAttribute('aria-hidden','true');arch.appendChild(cv);
-    arch.appendChild(el('span','seal',e.kanji));
-    arch.setAttribute('role','img');arch.setAttribute('aria-label','その日の一枚　'+e.kanji);
+    arch.setAttribute('role','img');arch.setAttribute('aria-label','Artwork of the day');
     art.appendChild(arch);
-    art.appendChild(el('p','caption',e.kanji+(e.yomi?'　'+e.yomi:'')));
     art.appendChild(el('h1','title',e.title));
     art.appendChild(el('hr','rule'));
     var body=el('div','body');
@@ -182,10 +172,10 @@ main{flex:1;display:flex;flex-direction:column}
     var chars=e.body.replace(/\n/g,'').length;
     var mins=Math.max(1,Math.round(chars/350));
     var meta=el('footer','meta');
-    meta.appendChild(el('span',null,kan(chars)+'字'));
-    meta.appendChild(el('span',null,'読了およそ'+kan(mins)+'分'));
+    meta.appendChild(el('span',null,chars+' characters'));
+    meta.appendChild(el('span',null,'about '+mins+' min'));
     art.appendChild(meta);
-    if(!opts.past&&e.date===todayKey)art.appendChild(el('p','tomorrow','次の頁は、明日。'));
+    if(!opts.past&&e.date===todayKey)art.appendChild(el('p','tomorrow','The next page arrives tomorrow.'));
     $view.appendChild(art);
     var rect=arch.getBoundingClientRect();
     paint(cv,e,Math.max(1,Math.round(rect.width)),Math.max(1,Math.round(rect.height)));
@@ -197,7 +187,7 @@ main{flex:1;display:flex;flex-direction:column}
     var d=parseKey(todayKey);
     var date=el('p','date');
     date.appendChild(el('span','lat',latDate(d)));
-    date.appendChild(el('span','jp',sekkiOf(d)+'　'+WD_JP[d.getDay()]));
+    date.appendChild(el('span','jp',sekkiOf(d)));
     art.appendChild(date);
     var arch=el('div','art f-arch');arch.appendChild(el('span','dot'));art.appendChild(arch);
     art.appendChild(el('h1','title quiet',text));
@@ -209,18 +199,18 @@ main{flex:1;display:flex;flex-direction:column}
   function renderShelf(){
     clear();setView('shelf');setHash('');
     var sec=el('section','shelf fade');
-    sec.appendChild(el('h2',null,'書庫'));
+    sec.appendChild(el('h2',null,'Library'));
     var keys=sortedKeys();
     var count=el('p','count');
     count.appendChild(el('span','n',String(keys.length)));
-    count.appendChild(el('span','u','頁　一日一本、およそ五百字'));
+    count.appendChild(el('span','u',(keys.length===1?'page':'pages')+' · one a day'));
     sec.appendChild(count);
-    if(!keys.length){sec.appendChild(el('p','empty','まだ頁がありません。'));$view.appendChild(sec);return;}
+    if(!keys.length){sec.appendChild(el('p','empty','No pages yet.'));$view.appendChild(sec);return;}
     var ol=el('ol');
     keys.forEach(function(k){
       var e=essays[k],li=el('li'),b=el('button','row'+(k===todayKey?' today':''));
       b.type='button';
-      var pk=planOf(e),tw=THUMB[pk.frame]||THUMB.arch;var kb=el('span','k f-'+pk.frame+(pk.light?' light':''));var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');kb.appendChild(kc);kb.appendChild(el('span','mini',e.kanji));b.appendChild(kb);paint(kc,e,tw[0],tw[1]);
+      var pk=planOf(e),tw=THUMB[pk.frame]||THUMB.arch;var kb=el('span','k f-'+pk.frame+(pk.light?' light':''));var kc=document.createElement('canvas');kc.setAttribute('aria-hidden','true');kb.appendChild(kc);b.appendChild(kb);paint(kc,e,tw[0],tw[1]);
       b.appendChild(el('span','t',e.title));
       b.appendChild(el('span','d',shortDate(parseKey(k))));
       b.addEventListener('click',function(){renderLeaf(e,{past:k!==todayKey});});
@@ -233,13 +223,13 @@ main{flex:1;display:flex;flex-direction:column}
   function showToday(){
     if(essays[todayKey]){renderLeaf(essays[todayKey]);return;}
     var keys=sortedKeys();
-    if(keys.length){renderLeaf(essays[keys[0]],{past:true,note:'今日の頁は、まだ届いていません。いちばん新しい頁を開きます。'});return;}
-    renderQuiet('まだ頁がありません。');
+    if(keys.length){renderLeaf(essays[keys[0]],{past:true,note:'Today’s page has not arrived yet. Here is the most recent one.'});return;}
+    renderQuiet('No pages yet.');
   }
 
   // ---------- 起動 ----------
   function load(){
-    renderQuiet('頁を開いています。');
+    renderQuiet('Opening the page.');
     var url='data/essays.json?d='+todayKey.replace(/-/g,'');
     return fetch(url,{cache:'no-cache'}).then(function(r){
       if(!r.ok)throw new Error('http '+r.status);
@@ -251,8 +241,8 @@ main{flex:1;display:flex;flex-direction:column}
       if(/^\d{4}-\d{2}-\d{2}$/.test(h)&&essays[h]&&h!==todayKey){renderLeaf(essays[h],{past:true});return;}
       showToday();
     }).catch(function(){
-      var art=renderQuiet('頁を開けませんでした。','通信を確かめて、もう一度お試しください。');
-      var b=el('button','retry','もう一度開く');b.type='button';b.addEventListener('click',load);
+      var art=renderQuiet('The page could not be opened.','Check your connection and try again.');
+      var b=el('button','retry','Try again');b.type='button';b.addEventListener('click',load);
       art.appendChild(b);
     });
   }

@@ -1,7 +1,7 @@
 {
-  "name": "一日一頁",
-  "short_name": "一頁",
-  "description": "一日一本、およそ五百字の随想。",
+  "name": "Ichiyō",
+  "short_name": "Ichiyō",
+  "description": "One page a day. A short Japanese essay of about five hundred characters.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
@@ -9,7 +9,15 @@
   "theme_color": "#1b1916",
   "lang": "ja",
   "icons": [
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" }
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
   ]
 }
