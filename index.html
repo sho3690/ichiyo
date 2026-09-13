@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>一日一頁</title>
+<meta name="description" content="一日一本、およそ五百字の随想。開いた日の頁だけが読める。">
+<meta name="theme-color" content="#1b1916">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="一日一頁">
+<meta property="og:title" content="一日一頁">
+<meta property="og:description" content="一日一本、およそ五百字の随想。">
+<meta property="og:type" content="website">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-512.png" type="image/png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Shippori+Mincho:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#1b1916;
+  --surface:#23201b;
+  --surface-2:#2c2822;
+  --ink:#ebe3d3;
+  --ink-2:#b4aa97;
+  --ink-3:#847b6c;
+  --gold:#c9a961;
+  --line:#37322b;
+  --serif-jp:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;
+  --serif-lat:"Cormorant Garamond","Cormorant",Georgia,"Times New Roman",serif;
+  --col:440px;
+}
+html{color-scheme:dark;background:var(--ground)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--serif-jp);font-size:16px;line-height:1.6;padding-inline:max(20px,env(safe-area-inset-left),env(safe-area-inset-right));padding-block:0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;letter-spacing:inherit}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:6px;border-radius:2px}
+.page{max-width:var(--col);margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+.top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-block:max(28px,env(safe-area-inset-top)) 0}
+.brand{font-size:15px;letter-spacing:.32em;color:var(--ink-2);padding-block:6px}
+.brand:hover{color:var(--ink)}
+.nav{font-size:13px;letter-spacing:.28em;color:var(--gold);padding-block:6px;padding-inline-start:.28em}
+.nav:hover{color:var(--ink)}
+main{flex:1;display:flex;flex-direction:column}
+.fade{animation:rise .8s cubic-bezier(.2,.6,.2,1) both}
+@keyframes rise{from{opacity:.3;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.fade{animation:none}.dot{animation:none}}
+
+/* 今日の頁 */
+.leaf{padding-block:52px 48px;display:flex;flex-direction:column;align-items:flex-start}
+.date{margin:0;display:flex;flex-direction:column;gap:8px}
+.date .lat{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:23px;letter-spacing:.01em;line-height:1.2;color:var(--ink-2)}
+.date .jp{font-size:12px;letter-spacing:.32em;color:var(--gold)}
+.arch{margin-top:38px;width:150px;max-width:100%;aspect-ratio:4/5;border-radius:75px 75px 10px 10px;border:1px solid var(--line);background:radial-gradient(120% 90% at 50% 28%,var(--surface-2) 0%,var(--surface) 52%,var(--ground) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.arch .kanji{font-size:82px;font-weight:500;line-height:1;color:var(--ink);transform:translateY(3px)}
+.arch .yomi{font-size:11px;letter-spacing:.38em;padding-inline-start:.38em;color:var(--gold)}
+.arch .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+.title{font-size:33px;font-weight:500;line-height:1.3;letter-spacing:.05em;margin:40px 0 0;text-wrap:balance}
+.title.quiet{font-size:20px;font-weight:400;color:var(--ink-2);letter-spacing:.08em}
+.rule{width:40px;height:1px;background:var(--gold);border:0;margin:24px 0 30px}
+.body{width:100%}
+.body p{margin:0;text-indent:1em;font-size:17px;line-height:2.05;text-align:justify;letter-spacing:.02em;line-break:strict;overflow-wrap:anywhere;color:var(--ink)}
+.note{margin:0;font-size:14px;line-height:1.9;color:var(--ink-2);letter-spacing:.04em}
+.meta{margin-top:40px;font-size:12px;letter-spacing:.22em;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:8px 20px}
+.tomorrow{margin-top:56px;padding-top:28px;border-top:1px solid var(--line);width:100%;font-size:13px;letter-spacing:.22em;color:var(--ink-3)}
+.retry{margin-top:32px;font-size:14px;letter-spacing:.22em;color:var(--gold);border:1px solid var(--line);padding:12px 22px;border-radius:6px}
+.retry:hover{border-color:var(--gold)}
+
+/* 書庫 */
+.shelf{padding-block:52px 48px}
+.shelf h2{font-size:12px;letter-spacing:.32em;color:var(--gold);font-weight:500;margin:0 0 10px}
+.shelf .count{margin:0 0 30px;display:flex;align-items:baseline;gap:10px}
+.shelf .count .n{font-family:var(--serif-lat);font-style:italic;font-weight:300;font-size:34px;line-height:1;color:var(--ink)}
+.shelf .count .u{font-size:13px;letter-spacing:.22em;color:var(--ink-2)}
+.shelf ol{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.shelf li{border-bottom:1px solid var(--line)}
+.row{width:100%;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:18px;padding-block:16px;text-align:left}
+.row .k{width:44px;height:54px;border-radius:22px 22px 6px 6px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:24px;font-weight:500;line-height:1}
+.row .t{font-size:17px;letter-spacing:.05em;color:var(--ink)}
+.row .d{font-family:var(--serif-lat);font-style:italic;font-size:17px;color:var(--ink-3);white-space:nowrap}
+.row:hover .t,.row:hover .d{color:var(--gold)}
+.row.today .d::after{content:"today";margin-inline-start:.6em;font-size:12px;letter-spacing:.12em;color:var(--gold)}
+.shelf .empty{margin:0;font-size:14px;color:var(--ink-3);letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <button class="brand" id="brand" type="button" aria-label="一日一頁 — 今日の頁へ">一日一頁</button>
+    <button class="nav" id="nav" type="button">書庫</button>
+  </header>
+  <main id="view" aria-live="polite"></main>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  // ---------- 暦 ----------
+  var SEKKI=[[1,5,'小寒'],[1,20,'大寒'],[2,4,'立春'],[2,19,'雨水'],[3,5,'啓蟄'],[3,20,'春分'],[4,5,'清明'],[4,20,'穀雨'],[5,5,'立夏'],[5,21,'小満'],[6,6,'芒種'],[6,21,'夏至'],[7,7,'小暑'],[7,23,'大暑'],[8,7,'立秋'],[8,23,'処暑'],[9,7,'白露'],[9,23,'秋分'],[10,8,'寒露'],[10,23,'霜降'],[11,7,'立冬'],[11,22,'小雪'],[12,7,'大雪'],[12,22,'冬至']];
+  var WD_JP=['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
+  var WD_EN=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var MON_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var MON_SHORT=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  function sekkiOf(d){var m=d.getMonth()+1,day=d.getDate(),cur='冬至';for(var i=0;i<SEKKI.length;i++){var s=SEKKI[i];if(m>s[0]||(m===s[0]&&day>=s[1]))cur=s[2];}return cur;}
+  function parseKey(k){var p=k.split('-');return new Date(+p[0],+p[1]-1,+p[2]);}
+  function latDate(d){return WD_EN[d.getDay()]+', '+d.getDate()+' '+MON_EN[d.getMonth()]+' '+d.getFullYear();}
+  function shortDate(d){return d.getDate()+' '+MON_SHORT[d.getMonth()];}
+  function kan(n){var D='〇一二三四五六七八九';if(n<10)return D[n];if(n>=1000)return String(n);var s='',h=Math.floor(n/100),t=Math.floor(n%100/10),o=n%10;if(h)s+=(h>1?D[h]:'')+'百';if(t)s+=(t>1?D[t]:'')+'十';if(o)s+=D[o];return s;}
+  // 日本時間での今日（YYYY-MM-DD）
+  function todayJST(){
+    try{return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());}
+    catch(e){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+  }
+
+  // ---------- 状態 ----------
+  var todayKey=todayJST();
+  var essays={};          // date -> essay（今日以前のものだけ）
+  var view='today';       // today | shelf | past
+
+  var $view=document.getElementById('view');
+  var $nav=document.getElementById('nav');
+  var $brand=document.getElementById('brand');
+
+  function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e;}
+  function clear(){while($view.firstChild)$view.removeChild($view.firstChild);}
+  function setView(v){view=v;$nav.textContent=(v==='shelf')?'今日の頁':'書庫';window.scrollTo({top:0});}
+  function isValid(d){return !!d&&typeof d.date==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(d.date)&&typeof d.title==='string'&&typeof d.kanji==='string'&&typeof d.body==='string'&&d.body.length>0;}
+  function sortedKeys(){return Object.keys(essays).sort().reverse();}
+  function setHash(h){try{if(h){history.replaceState(null,'','#'+h);}else{history.replaceState(null,'',location.pathname+location.search);}}catch(e){}}
+
+  // ---------- 描画 ----------
+  function renderLeaf(e,opts){
+    opts=opts||{};
+    clear();setView(opts.past?'past':'today');
+    setHash(opts.past?e.date:'');
+    var d=parseKey(e.date);
+    var art=el('article','leaf fade');
+    var date=el('p','date');
+    date.appendChild(el('span','lat',latDate(d)));
+    date.appendChild(el('span','jp',sekkiOf(d)+'　'+WD_JP[d.getDay()]));
+    art.appendChild(date);
+    if(opts.note){var n=el('p','note',opts.note);n.style.marginTop='28px';art.appendChild(n);}
+    var arch=el('div','arch');
+    arch.appendChild(el('span','kanji',e.kanji));
+    if(e.yomi)arch.appendChild(el('span','yomi',e.yomi));
+    art.appendChild(arch);
+    art.appendChild(el('h1','title',e.title));
+    art.appendChild(el('hr','rule'));
+    var body=el('div','body');
+    e.body.split('\n').forEach(function(p){p=p.trim();if(p)body.appendChild(el('p',null,p));});
+    art.appendChild(body);
+    var chars=e.body.replace(/\n/g,'').length;
+    var mins=Math.max(1,Math.round(chars/350));
+    var meta=el('footer','meta');
+    meta.appendChild(el('span',null,kan(chars)+'字'));
+    meta.appendChild(el('span',null,'読了およそ'+kan(mins)+'分'));
+    art.appendChild(meta);
+    if(!opts.past&&e.date===todayKey)art.appendChild(el('p','tomorrow','次の頁は、明日。'));
+    $view.appendChild(art);
+  }
+
+  function renderQuiet(text,sub){
+    clear();setView('today');
+    var art=el('article','leaf fade');
+    var d=parseKey(todayKey);
+    var date=el('p','date');
+    date.appendChild(el('span','lat',latDate(d)));
+    date.appendChild(el('span','jp',sekkiOf(d)+'　'+WD_JP[d.getDay()]));
+    art.appendChild(date);
+    var arch=el('div','arch');arch.appendChild(el('span','dot'));art.appendChild(arch);
+    art.appendChild(el('h1','title quiet',text));
+    if(sub){var n=el('p','note',sub);n.style.marginTop='18px';art.appendChild(n);}
+    $view.appendChild(art);
+    return art;
+  }
+
+  function renderShelf(){
+    clear();setView('shelf');setHash('');
+    var sec=el('section','shelf fade');
+    sec.appendChild(el('h2',null,'書庫'));
+    var keys=sortedKeys();
+    var count=el('p','count');
+    count.appendChild(el('span','n',String(keys.length)));
+    count.appendChild(el('span','u','頁　一日一本、およそ五百字'));
+    sec.appendChild(count);
+    if(!keys.length){sec.appendChild(el('p','empty','まだ頁がありません。'));$view.appendChild(sec);return;}
+    var ol=el('ol');
+    keys.forEach(function(k){
+      var e=essays[k],li=el('li'),b=el('button','row'+(k===todayKey?' today':''));
+      b.type='button';
+      b.appendChild(el('span','k',e.kanji));
+      b.appendChild(el('span','t',e.title));
+      b.appendChild(el('span','d',shortDate(parseKey(k))));
+      b.addEventListener('click',function(){renderLeaf(e,{past:k!==todayKey});});
+      li.appendChild(b);ol.appendChild(li);
+    });
+    sec.appendChild(ol);
+    $view.appendChild(sec);
+  }
+
+  function showToday(){
+    if(essays[todayKey]){renderLeaf(essays[todayKey]);return;}
+    var keys=sortedKeys();
+    if(keys.length){renderLeaf(essays[keys[0]],{past:true,note:'今日の頁は、まだ届いていません。いちばん新しい頁を開きます。'});return;}
+    renderQuiet('まだ頁がありません。');
+  }
+
+  // ---------- 起動 ----------
+  function load(){
+    renderQuiet('頁を開いています。');
+    var url='data/essays.json?d='+todayKey.replace(/-/g,'');
+    return fetch(url,{cache:'no-cache'}).then(function(r){
+      if(!r.ok)throw new Error('http '+r.status);
+      return r.json();
+    }).then(function(list){
+      if(!Array.isArray(list))throw new Error('shape');
+      list.forEach(function(d){if(isValid(d)&&d.date<=todayKey)essays[d.date]=d;});
+      var h=(location.hash||'').replace('#','');
+      if(/^\d{4}-\d{2}-\d{2}$/.test(h)&&essays[h]&&h!==todayKey){renderLeaf(essays[h],{past:true});return;}
+      showToday();
+    }).catch(function(){
+      var art=renderQuiet('頁を開けませんでした。','通信を確かめて、もう一度お試しください。');
+      var b=el('button','retry','もう一度開く');b.type='button';b.addEventListener('click',load);
+      art.appendChild(b);
+    });
+  }
+
+  $nav.addEventListener('click',function(){if(view==='shelf'){showToday();}else{renderShelf();}});
+  $brand.addEventListener('click',function(){showToday();});
+  load();
+})();
+</script>
+</body>
+</html>

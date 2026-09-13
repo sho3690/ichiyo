@@ -1,0 +1,15 @@
+{
+  "name": "一日一頁",
+  "short_name": "一頁",
+  "description": "一日一本、およそ五百字の随想。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#1b1916",
+  "theme_color": "#1b1916",
+  "lang": "ja",
+  "icons": [
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
