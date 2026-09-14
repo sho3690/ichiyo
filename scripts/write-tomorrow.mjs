@@ -11,8 +11,8 @@ import { execFileSync } from 'node:child_process';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const FILE = path.join(ROOT, 'data', 'essays.json');
 const MODEL = process.env.ICHIYO_MODEL || 'claude-opus-5';
-// 頁は日本時間の朝7時に切り替わる。7時より前は前日を「今日」とみなす
-const DAY_START_HOUR = 7;
+// 頁は日本時間で日付が変わった瞬間（0時）に切り替わる
+const DAY_START_HOUR = 0;
 
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');

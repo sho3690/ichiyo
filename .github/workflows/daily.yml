@@ -41,7 +41,7 @@ jobs:
         run: |
           ahead=$(node -e '
             const L = require("./data/essays.json");
-            const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(Date.now() - 7 * 3600000));
+            const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tokyo", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
             const last = L.map(e => e.date).sort().pop();
             console.log(Math.round((Date.parse(last) - Date.parse(today)) / 86400000));
           ')
