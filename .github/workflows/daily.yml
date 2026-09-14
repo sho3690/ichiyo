@@ -2,8 +2,10 @@ name: 頁を書く
 
 on:
   schedule:
-    - cron: "0 12 * * *"   # 21:00 JST — 明日の頁を用意する
-    - cron: "0 21 * * *"   # 06:00 JST — 念のため今日の頁を確かめる
+    - cron: "0 9 * * *"    # 18:00 JST — 明日の頁を用意する
+    - cron: "0 12 * * *"   # 21:00 JST — 予備
+    - cron: "0 18 * * *"   # 03:00 JST — 予備
+    - cron: "0 20 * * *"   # 05:00 JST — 最後の確認（GitHub の定時実行は数時間遅れることがある）
   workflow_dispatch:
     inputs:
       date:

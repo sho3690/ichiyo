@@ -113,6 +113,7 @@ main{flex:1;display:flex;flex-direction:column}
 
   // ---------- 状態 ----------
   var todayKey=todayJST();
+  var loadedAt=0;         // 最後に頁を読み込んだ時刻
   var essays={};          // date -> essay（今日以前のものだけ）
   var view='today';       // today | shelf | past
 
@@ -203,25 +204,41 @@ main{flex:1;display:flex;flex-direction:column}
   }
 
   // ---------- 起動 ----------
-  function load(){
-    renderQuiet('Opening the page.');
+  function load(quiet){
+    todayKey=todayJST();
+    if(!quiet)renderQuiet('Opening the page.');
     var url='data/essays.json?d='+todayKey.replace(/-/g,'');
     return fetch(url,{cache:'no-cache'}).then(function(r){
       if(!r.ok)throw new Error('http '+r.status);
       return r.json();
     }).then(function(list){
       if(!Array.isArray(list))throw new Error('shape');
+      essays={};
       list.forEach(function(d){if(isValid(d)&&d.date<=todayKey)essays[d.date]=d;});
+      loadedAt=Date.now();
+      if(quiet){if(view==='today')showToday();return;}
       var h=(location.hash||'').replace('#','');
       if(/^\d{4}-\d{2}-\d{2}$/.test(h)&&essays[h]&&h!==todayKey){renderLeaf(essays[h],{past:true});return;}
       showToday();
     }).catch(function(){
+      if(quiet)return;
       var art=renderQuiet('The page could not be opened.','Check your connection and try again.');
       var b=el('button','retry','Try again');b.type='button';b.addEventListener('click',load);
       art.appendChild(b);
     });
   }
 
+  // 開いたままでも、日が変わったら（朝7時）新しい頁に切り替える。
+  // 裏に回っていた画面を戻したときや、読み込みから時間が経っているときも読み直す。
+  function refresh(){
+    var k=todayJST();
+    var old=(Date.now()-loadedAt)>3*3600*1000;
+    if(k!==todayKey||old){load(true);}
+  }
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')refresh();});
+  window.addEventListener('pageshow',function(ev){if(ev.persisted)refresh();});
+  window.addEventListener('focus',refresh);
+  setInterval(refresh,60*1000);
   load();
 })();
 </script>
