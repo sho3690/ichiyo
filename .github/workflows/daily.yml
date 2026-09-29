@@ -46,22 +46,20 @@ jobs:
             console.log(Math.round((Date.parse(last) - Date.parse(today)) / 86400000));
           ')
           echo "書き置きは今日から ${ahead} 日ぶん" | tee -a "$GITHUB_STEP_SUMMARY"
-          if [ -n "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
-            echo "ok=true" >> "$GITHUB_OUTPUT"
-          elif [ "$ahead" -ge 3 ]; then
-            echo "::warning::CLAUDE_CODE_OAUTH_TOKEN が未設定です。書き置きがあるうちは静かに見送ります。README の手順で Secrets に登録してください"
-            echo "ok=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "::error::CLAUDE_CODE_OAUTH_TOKEN が未設定で、書き置きが残り ${ahead} 日です。README の手順で Secrets に登録してください"
+          # 鍵が無いときは書き置きの残りに関わらず必ず失敗させる（静かに見送ると誰も気づかない。9/29 に実際に止まった）
+          if [ -z "$CLAUDE_CODE_OAUTH_TOKEN" ]; then
+            echo "::error::CLAUDE_CODE_OAUTH_TOKEN が未設定です（書き置きは残り ${ahead} 日）。README の手順で Secrets に登録してください"
             exit 1
           fi
+          echo "ok=true" >> "$GITHUB_OUTPUT"
 
       - name: 頁を書く
         if: steps.token.outputs.ok == 'true'
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           DATE: ${{ inputs.date }}
-        run: node scripts/write-tomorrow.mjs ${DATE:+--date "$DATE"}
+        # 3日先まで書き置く。鍵が切れても3日は頁が途切れず、その間に失敗の知らせで気づける
+        run: node scripts/write-tomorrow.mjs --ahead 3 ${DATE:+--date "$DATE"}
 
       - name: 記録をコミット
         if: steps.token.outputs.ok == 'true'

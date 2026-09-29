@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // 今日と明日（日本時間）の頁が無ければ、Claude に書かせて data/essays.json に加える。
 //   node scripts/write-tomorrow.mjs              … 今日と明日を確認して、無い分を書く
+//   node scripts/write-tomorrow.mjs --ahead 3     … 今日から3日先までを確認して、無い分を書く
 //   node scripts/write-tomorrow.mjs --date 2026-10-01
 //   node scripts/write-tomorrow.mjs --dry-run    … 書くが保存しない（画面に出すだけ）
 import fs from 'node:fs';
@@ -17,7 +18,11 @@ const DAY_START_HOUR = 0;
 const args = process.argv.slice(2);
 const dryRun = args.includes('--dry-run');
 const dateIdx = args.indexOf('--date');
-const wanted = dateIdx >= 0 && args[dateIdx + 1] ? [args[dateIdx + 1]] : [jstKey(0), jstKey(1)];
+const aheadIdx = args.indexOf('--ahead');
+const ahead = aheadIdx >= 0 ? Math.max(1, Number(args[aheadIdx + 1]) || 1) : 1;
+const wanted = dateIdx >= 0 && args[dateIdx + 1]
+  ? [args[dateIdx + 1]]
+  : Array.from({ length: ahead + 1 }, (_, i) => jstKey(i));
 
 const SEKKI = [[1,5,'小寒'],[1,20,'大寒'],[2,4,'立春'],[2,19,'雨水'],[3,5,'啓蟄'],[3,20,'春分'],[4,5,'清明'],[4,20,'穀雨'],[5,5,'立夏'],[5,21,'小満'],[6,6,'芒種'],[6,21,'夏至'],[7,7,'小暑'],[7,23,'大暑'],[8,7,'立秋'],[8,23,'処暑'],[9,7,'白露'],[9,23,'秋分'],[10,8,'寒露'],[10,23,'霜降'],[11,7,'立冬'],[11,22,'小雪'],[12,7,'大雪'],[12,22,'冬至']];
 const WD = ['日曜日','月曜日','火曜日','水曜日','木曜日','金曜日','土曜日'];
